@@ -1,9 +1,9 @@
 Neo4j Data Tree config
--------------------------------------------------
+================================================
 
 This package loads a Neo4j data tree and will present it as JSON-LD
 
-## Install
+## Install Neo4j
 1. Install Docker
 2. Install the official Neo4j image
 3. Go to the browser interface and run this query:
@@ -26,10 +26,12 @@ CREATE c - [:HAS_VALUE] -> v2
 CREATE d - [:HAS_VALUE] -> v3
 CREATE e - [:HAS_VALUE] -> v4
 ```
-4. `git clone https://github.com/boyhagemann/data-tree`
-5. Rename `.example.env` to `.env` and adjust its contents
-5. Run `npm install`
-6. Run `npm run serve`
-7. Browse to `http://localhost:3000/node/1` to see a json tree response. 
+
+## Install package
+1. `git clone https://github.com/boyhagemann/data-tree`
+2. Rename `.example.env` to `.env` and adjust its contents
+3. Run `npm install`
+4. Run `npm run serve`
+5. Browse to `http://localhost:3000/node/1` to see a json tree response. 
 
 
