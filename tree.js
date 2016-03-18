@@ -19,8 +19,13 @@ function makeTree(results, id)
     var node = transformNode(found);
 
     // Build a sub tree for each child.
-    node.children = found.children.map(function(id) {
+    var children = found.children.map(function(id) {
         return makeTree(results, id);
+    });
+
+    // Sort by order property
+    node.children =  children.sort(function(obj1, obj2) {
+        return obj1.order - obj2.order;
     });
 
     return node;

@@ -10,9 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "dotenv": "^2.0.0",
     "express": "^4.13.4",
-    "neo4j": "^2.0.0-RC2"
+    "express-validator": "^2.20.2",
+    "neo4j": "^2.0.0-RC2",
+    "randomstring": "^1.1.4"
   },
   "devDependencies": {
     "nodemon": "^1.9.1"
