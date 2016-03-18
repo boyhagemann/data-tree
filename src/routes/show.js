@@ -7,9 +7,6 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_ENDPOINT);
 
 module.exports = function (req, res) {
 
-    // Get the node id from the request url
-    var id = parseInt(req.params.id);
-
     // The actual cypher query used to get the node and its children
     var query = `
         MATCH (b:Node) - [:HAS_PARENT*0..] -> (r:Node)
@@ -22,7 +19,7 @@ module.exports = function (req, res) {
     db.cypher({
         query: query,
         params: {
-            id: id
+            id: req.params.id
         }
     }, function (err, results) {
 
@@ -36,7 +33,7 @@ module.exports = function (req, res) {
         }
 
         // Found a node with children, create a tree out of it.
-        var node = tree.makeTree(results, id);
+        var node = tree.makeTree(results, req.params.id);
 
         // Just for presentation purposes, format the output
         // Can be stripped out for less overhead.
