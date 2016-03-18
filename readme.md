@@ -15,3 +15,44 @@ This package loads a Neo4j data tree and will present it as JSON-LD
 9. Browse to `http://localhost:3000/node/1` to see a json tree response.
 
 
+## Routes
+
+```
+GET /init
+```
+This route will insert some basic nodes for testing purposes
+
+```
+GET /node/:id
+```
+Shows a tree graph based on one root node.
+
+```
+POST /node
+```
+Create a new node and its values.
+Required fields:
+* parent (the ID of the parent node)
+* type (the value type, e.g. 'Box' or 'Link')
+* order (must be an integer)
+Optional fields
+* props (can be nested, like props[name] of props[label])
+* values (can be nested, like values[name] of values[label])
+
+```
+UPDATE /node/:id
+```
+Update new node.
+Optional fields
+* props (can be nested, like props[name] of props[label])
+* values (can be nested, like values[name] of values[label])
+
+```
+DELETE /node/:id
+```
+Delete new node and all of its children.
+
+
+
+
+
