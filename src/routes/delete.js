@@ -6,9 +6,6 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_ENDPOINT);
 
 module.exports = function (req, res) {
 
-    // Required
-    var id      = req.params.id;
-
     // The actual cypher query used to get the node and its children
     var query = `
         MATCH (v2) <-[:HAS_VALUE]- (p) -[:HAS_PARENT*0..]-> (a:Node) - [:HAS_VALUE] -> (v)
@@ -19,7 +16,7 @@ module.exports = function (req, res) {
     db.cypher({
         query: query,
         params: {
-            id: id
+            id: req.params.id
         }
     }, function (err, results) {
 

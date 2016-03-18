@@ -1,4 +1,4 @@
-
+var util = require('util');
 var neo4j = require('neo4j');
 
 // Connect to the database with credentials
@@ -6,8 +6,15 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_ENDPOINT);
 
 module.exports = function (req, res) {
 
-    // Required
-    var id      = req.params.id;
+    // Validate
+    req.checkBody('order', 'Order must be a number').isInt();
+
+    // On error, show response
+    var errors = req.validationErrors();
+    if (errors) {
+        res.send('There have been validation errors: ' + util.inspect(errors), 400);
+        return;
+    }
 
     // Optional
     var order   = parseInt(req.body.order);
@@ -20,7 +27,9 @@ module.exports = function (req, res) {
         MATCH (a:Node) - [:HAS_VALUE] -> (v)
         WHERE a.id = {id}`;
 
-    var params = {id: id}
+    var params = {
+        id: req.params.id
+    }
 
     for(var key in props) {
         query += ` SET a.` + key + ` = {prop_` + key + `}`
