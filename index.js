@@ -2,11 +2,14 @@ require('dotenv').config();
 
 var express = require('express');
 var validator = require('express-validator');
+var graphqlHTTP = require('express-graphql');
 var app = express();
 var bodyParser = require('body-parser')
 
 var initRoute = require('./src/routes/init')
+var treeRoute = require('./src/routes/tree')
 var showRoute = require('./src/routes/show')
+var childrenRoute = require('./src/routes/children')
 var storeRoute = require('./src/routes/store')
 var updateRoute = require('./src/routes/update')
 var deleteRoute = require('./src/routes/delete')
@@ -30,7 +33,9 @@ app.use(validator());
 // Request handler for showing one node and all its children
 // presented as a node tree.
 app.get('/init', initRoute);
+app.get('/tree/:id', treeRoute);
 app.get('/node/:id', showRoute);
+app.get('/children/:id', childrenRoute);
 app.post('/node', storeRoute);
 app.put('/node/:id', updateRoute);
 app.delete('/node/:id', deleteRoute);

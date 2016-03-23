@@ -1,6 +1,6 @@
 var util = require('util');
 var neo4j = require('neo4j');
-var randomstring = require("randomstring");
+var uuid = require('node-uuid');
 
 // Connect to the database with credentials
 var db = new neo4j.GraphDatabase(process.env.NEO4J_ENDPOINT);
@@ -22,23 +22,9 @@ module.exports = function (req, res) {
     // Sanitize
     req.sanitizeBody('order').toInt();
 
-    // Generate node id
-    var nodeKey = randomstring.generate({
-        length: 32,
-        charset: 'alphabetic',
-        capitalization: 'lowercase'
-    });
-
-    // Generate value id
-    var valueKey = randomstring.generate({
-        length: 32,
-        charset: 'alphabetic',
-        capitalization: 'lowercase'
-    });
-
     // Merge
-    var props   = Object.assign({}, req.body.props, {id: nodeKey, order: req.body.order})
-    var values  = Object.assign({}, req.body.values, {id: valueKey})
+    var props   = Object.assign({}, req.body.props, {id: uuid.v4(), order: req.body.order})
+    var values  = Object.assign({}, req.body.values, {id: uuid.v4()})
 
     // The actual cypher query used to get the node and its children
     var query = `

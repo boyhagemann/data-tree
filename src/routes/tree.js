@@ -7,15 +7,13 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_ENDPOINT);
 
 module.exports = function (req, res) {
 
-    const depth = req.query.depth || ''
-
     // The actual cypher query used to get the node and its children
     var query = `
-        MATCH (r:Node)
+        MATCH (b:Node) - [:HAS_PARENT*0..] -> (r:Node)
         WHERE r.id = {id}
-        OPTIONAL MATCH (a:Node) - [:HAS_PARENT] -> (r)
-        OPTIONAL MATCH (r:Node) - [:HAS_VALUE] -> (v)
-        RETURN r AS node, r.id AS id, collect(a) AS children, head(collect(v)) AS value`;
+        OPTIONAL MATCH (a:Node) - [:HAS_PARENT] -> (b)
+        OPTIONAL MATCH (b:Node) - [:HAS_VALUE] -> (v)
+        RETURN b AS node, collect(a.id) AS children, head(collect(v)) AS value`;
 
     // Execute the query and return the response
     db.cypher({
@@ -34,9 +32,12 @@ module.exports = function (req, res) {
             return res.send('Node not found');
         }
 
+        // Found a node with children, create a tree out of it.
+        var node = tree.makeTree(results, req.params.id);
+
         // Just for presentation purposes, format the output
         // Can be stripped out for less overhead.
-        var json = JSON.stringify(results[0], null, 4);
+        var json = JSON.stringify(node, null, 4);
 
         return res.send(json);
     });

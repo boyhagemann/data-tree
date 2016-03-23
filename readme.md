@@ -53,6 +53,16 @@ DELETE /node/:id
 Delete new node and all of its children.
 
 
+Components
+==============================================
+* [ ] Breadcrumb
+* [ ] Tabs
+* [ ] Node properties
+* [ ] Node content
 
-
+Todo
+==============================================
+* [ ] Generate form based on PropTypes of component
+* [ ] Display a list of available components
+* [ ] Drag and drop components as children
 
